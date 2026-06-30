@@ -644,6 +644,20 @@ const btnPrev = document.getElementById('btnPrev');
 const btnNext = document.getElementById('btnNext');
 const navCount = document.getElementById('navCount');
 const canvas = document.getElementById('canvas');
+const videoWrap = document.getElementById('videoWrap');
+
+function resetVideo() {
+  const iframe = videoWrap.querySelector('iframe');
+  if (iframe) iframe.remove();
+  if (!document.getElementById('videoThumb')) {
+    const thumb = document.createElement('div');
+    thumb.className = 'video-thumb';
+    thumb.id = 'videoThumb';
+    thumb.style.backgroundImage = "url('https://img.youtube.com/vi/g_31_Kj0-NE/hqdefault.jpg')";
+    thumb.innerHTML = '<div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>';
+    videoWrap.appendChild(thumb);
+  }
+}
 
 // 인디케이터 생성
 for (let i = 0; i < TOTAL; i++) {
@@ -673,8 +687,7 @@ if (window.ResizeObserver) {
 function go(n) {
   if (n < 0 || n >= TOTAL) return;
   // 영상 슬라이드 이탈 시 재생 중단
-  const iframe = slides[cur].querySelector('iframe');
-  if (iframe) iframe.src = iframe.src;  // src 재할당으로 재생 중단
+  if (slides[cur].contains(videoWrap)) resetVideo();
   slides[cur].classList.remove('active');
   cur = n;
   slides[cur].classList.add('active');
@@ -697,7 +710,7 @@ document.addEventListener('keydown', e => {
 });
 
 // 영상 클릭
-document.getElementById('videoWrap').addEventListener('click', function () {
+videoWrap.addEventListener('click', function () {
   const thumb = document.getElementById('videoThumb');
   if (thumb) {
     thumb.remove();
