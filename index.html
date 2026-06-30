@@ -1078,8 +1078,8 @@ function init() {
   navCount.textContent = '01 / ' + String(TOTAL).padStart(2, '0');
   
   if (window.ResizeObserver) {
-    new Observer = new ResizeObserver(resizeCanvas);
-    Observer.observe(canvas);
+    const observer = new ResizeObserver(resizeCanvas);
+    observer.observe(canvas);
   } else {
     window.addEventListener('resize', resizeCanvas);
   }
